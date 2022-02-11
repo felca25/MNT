@@ -11,8 +11,7 @@ MÉTODOS NUMÉRICOS EM TERMOFLUIDOS
 """
 
 '''
-Este é um jogo de pedra papel e tesoura de melhor de 5 (geralmente são 5 partidas se ambos ganharem consecutivamente), 
-mas ganha quem ganhar 3 partidas primeiro.
+Este é um jogo single-player (contra o computador) de pedra papel e tesoura, onde ganha quem fizer 3 pontos primeiro.
 
 Para jogar digite uma das três opções (rock, paper, scissors), e espere a resposta do computador.
 
@@ -83,22 +82,23 @@ class Game:
         # agora vamos pegar o input do usuário e vamos tratar esse input para obter valores numéricos
         print('Round %s. Enter "q" to exit the game.'% self.round)
         print('----------------')
-        user_input = input('Rock, Paper, Scissors \n').lower()
+        user_input = input('Rock[0], Paper[1], Scissors[2] \n').lower()
         
-        if user_input == 'rock':
+        if user_input == 'rock' or user_input == '0':
             self.user_input = 0
-        elif user_input == 'paper':
+        elif user_input == 'paper' or user_input == '1':
             self.user_input = 1
-        elif user_input == 'scissors':
+        elif user_input == 'scissors' or user_input == '2':
             self.user_input = 2
         else:
             # novamente vamos colocar um valor impossível de ser inputado para controle de erro
             self.user_input = 10
             # retornando 0, 1 desta forma podemos saber se a função rodou de forma correta ou não
+            print("Resposta não está em ['rock', 'paper', 'scissor', '0', '1', '2']")
             return 0
         return 1
     
-    def comp_play(self, computer_input):
+    def convert_computer_play(self, computer_input):
         # aqui vamos converter os inputs numéricos do computador em uma jogada para o usuário
         if computer_input == 0 or computer_input == 3:
             self.computer_play = 'rock'
@@ -114,19 +114,23 @@ class Game:
         # você entenderá quando fomos ver como o ganhador é calculado
         self.computer = random.randint(0,3)
         #convertendo o número em jogada
-        self.comp_play(self.computer)
+        self.convert_computer_play(self.computer)
         print(self.computer_play)
         
     def unfair_computer(self):
         # aqui só colocamos que a jogada que o computador fará será a jogada que ganha do usuário
-        self.computer = self.user_input + 1
+        if self.user_wins == 2:
+            self.computer = self.user_input + 1
+        elif self.user_wins == 1:
+            self.computer = random.randint(0,3)
+            
         # convertendo o número em jogada
-        self.comp_play(self.computer)
+        self.convert_computer_play(self.computer)
         print(self.computer_play)
         
     
     def calculate_winner(self, user_input, computer_input):
-        # Como calcular o vencedor
+        # Como calcular o vencedor:
         # temos as seguintes jogadas que formam um ciclo 
         #  ... -> pedra [0] -> papel[1] -> tesoura[2] -> pedra[3] ...
         # como estamos usando números ao invés de palavras, podemos dizer que o computador ganha se o seu input for
@@ -187,6 +191,7 @@ class Game:
     
     def fair_game(self):
         print('START FAIR GAME')
+        print('----------------')
         while self.continue_game:
             # pegando a jogada do usuário
             self.getUserInput()

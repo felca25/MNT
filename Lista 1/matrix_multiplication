@@ -1,0 +1,33 @@
+import numpy as np
+
+A = [[1, 2],
+     [3, 4],
+     [5, 6]]
+
+B = [[7, 8, 9],
+     [9, 10, 11]]
+
+
+def matrix_mult(A, B):
+     
+     rows_A, columns_A = len(A), len(A[0])
+     rows_B, columns_B = len(B), len(B[0])
+     rows_C, columns_C = rows_A, columns_B
+
+     C = np.zeros((rows_C, columns_C))
+
+     if columns_A != rows_B:
+          print('numero de linhas e colunas diferente')
+          # raise 
+          # return 0
+
+     # iterando pelas linhas de A
+     for i in range(rows_A):
+          # iterando pelas colunas de B
+          for j in range(columns_B):
+               # iterando pelas linhas de B
+               for k in range(rows_B):
+                    C[i][j] += A[i][k] * B[k][j]
+                    
+     return C
+

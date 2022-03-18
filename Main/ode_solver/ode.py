@@ -45,6 +45,15 @@ def implicit_euler(t, y, y_bar, dt= 0.1):
     
     return [y, y_bar, erro]
 
+def runge_kutta(t, y, y_bar, dt=0.1):
+    erro = np.zeros(len(t))
+    
+    for k in range(len(t) - 1):
+        # k1 = delta t f(t_k, y_n)
+        # k2 = delta t f(t_k + delta t, y_k, + k1)
+        # y_k+1 = y_k + 0.5 (k1 + k2)
+        k1 = dt * y
+
 def plot_euler(t, y, y_bar, erro):
     fig1 = plt.figure()
     plt.plot(t, y, 'bo')
